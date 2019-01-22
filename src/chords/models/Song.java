@@ -9,6 +9,7 @@ public class Song {
 
     public Song(String title) {
         this.title = title;
+        songElements = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -22,5 +23,21 @@ public class Song {
     @Override
     public String toString() {
         return this.title;
+    }
+
+    public ArrayList<SongElement> getSongElements() {
+        return songElements;
+    }
+
+    public void setSongElements(ArrayList<SongElement> songElements) {
+        this.songElements = songElements;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

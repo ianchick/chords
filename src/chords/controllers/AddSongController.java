@@ -10,13 +10,17 @@ public class AddSongController {
 
     private Song newSong;
 
-    @FXML private TextField new_song_name;
-    @FXML private Button save;
+    @FXML
+    private TextField new_song_name;
+    @FXML
+    private Button save;
 
     public void addSong() {
         newSong = new Song(new_song_name.getText());
-        Stage stage = (Stage) save.getScene().getWindow();
-        stage.close();
+        if (!newSong.getTitle().isEmpty()) {
+            Stage stage = (Stage) save.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public Song getNewSong() {
