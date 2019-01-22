@@ -1,6 +1,6 @@
-package sample.models;
+package chords.models;
 
 public class Segment {
-    private String chord;
+    private Chord chord;
     private String lyrics;
 }
