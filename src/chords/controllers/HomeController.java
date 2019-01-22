@@ -53,6 +53,7 @@ public class HomeController {
             element.setSegments(editSongController.getSegments());
             selectedSong.getSongElements().add(element);
 
+            // TODO: REMOVE when formatting logic is done
             chords.setText(selectedSong.getSongElements().toString());
         }
     }

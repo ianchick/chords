@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.ToolBar?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
             fx:controller="chords.controllers.HomeController"
@@ -18,8 +16,10 @@
             <Button onAction="#editSelectedSong">Edit Song</Button>
         </ToolBar>
     </top>
-    <right>
-        <Text fx:id="chords"/>
-    </right>
+    <center>
+        <ScrollPane>
+            <Text fx:id="chords" textAlignment="CENTER"/>
+        </ScrollPane>
+    </center>
 
 </BorderPane>
