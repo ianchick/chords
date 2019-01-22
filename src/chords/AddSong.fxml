@@ -1,12 +1,10 @@
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
 <VBox fx:controller="chords.controllers.AddSongController"
-      xmlns:fx="http://javafx.com/fxml" alignment="center">
+      xmlns:fx="http://javafx.com/fxml" alignment="center"
+      prefHeight="200.0" prefWidth="400.0">
 
     <TextField fx:id="new_song_name"/>
-    <Button onAction="#addSong">New Song</Button>
-
-    <Text fx:id="output"/>
+    <Button fx:id="save" onAction="#addSong">Save</Button>
 </VBox>

@@ -6,9 +6,9 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="chords.controllers.HomeController"
-            prefHeight="600.0" prefWidth="600.0">
+            prefHeight="600.0" prefWidth="1000.0">
     <left>
-        <ListView/>
+        <ListView fx:id="songs_list"/>
     </left>
     <top>
         <Button onAction="#openAddSongView">Add New Song</Button>

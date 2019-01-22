@@ -1,20 +1,25 @@
 package chords.controllers;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import chords.models.Song;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AddSongController {
 
-    @FXML
-    private Text output;
-    @FXML
-    private TextField new_song_name;
+    private Song newSong;
 
-    @FXML
+    @FXML private TextField new_song_name;
+    @FXML private Button save;
+
     public void addSong() {
-        Song song = new Song(new_song_name.getText());
-        output.setText("New Song: " + song.getTitle() + " was added");
+        newSong = new Song(new_song_name.getText());
+        Stage stage = (Stage) save.getScene().getWindow();
+        stage.close();
+    }
+
+    public Song getNewSong() {
+        return newSong;
     }
 }
