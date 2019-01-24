@@ -19,7 +19,7 @@ public class SongElement {
     }
 
     public String prettyFormatElement() {
-        StringBuilder sb = new StringBuilder(title).append("\n");
+        StringBuilder sb = new StringBuilder(title != null ? title : "").append("\n");
         for (Segment s : segments) {
             sb.append(s.prettyFormatSegment()).append("\n");
         }

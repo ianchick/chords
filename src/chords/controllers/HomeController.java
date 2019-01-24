@@ -33,8 +33,10 @@ public class HomeController {
         if (songsList == null) {
             songsList = FXCollections.observableArrayList();
         }
-        songsList.add(newSong);
-        songs_list.setItems(songsList);
+        if (newSong != null) {
+            songsList.add(newSong);
+            songs_list.setItems(songsList);
+        }
     }
 
     public void editSelectedSong() throws IOException {
@@ -48,8 +50,10 @@ public class HomeController {
             EditSongController editSongController = fxmlLoader.getController();
             editSongController.init(selectedSong.getTitle());
             stage.showAndWait();
-            selectedSong.setSongElements(editSongController.getSongElements());
-            chords.setText(selectedSong.prettyFormatSong());
+            if (!editSongController.getSongElements().isEmpty()) {
+                selectedSong.setSongElements(editSongController.getSongElements());
+                chords.setText(selectedSong.prettyFormatSong());
+            }
         }
     }
 }

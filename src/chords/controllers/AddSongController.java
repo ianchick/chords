@@ -16,8 +16,8 @@ public class AddSongController {
     private Button save;
 
     public void addSong() {
-        newSong = new Song(new_song_name.getText());
-        if (!newSong.getTitle().isEmpty()) {
+        if (!new_song_name.getText().isEmpty()) {
+            newSong = new Song(new_song_name.getText());
             Stage stage = (Stage) save.getScene().getWindow();
             stage.close();
         }
