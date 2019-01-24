@@ -27,9 +27,11 @@ public class EditSongController {
 
     public void save() {
         this.songElements = parseSongBody(song_body.getText());
-        this.title = song_title.getText();
-        Stage stage = (Stage) save.getScene().getWindow();
-        stage.close();
+        if (!this.songElements.isEmpty()) {
+            this.title = song_title.getText();
+            Stage stage = (Stage) save.getScene().getWindow();
+            stage.close();
+        }
     }
 
     private ArrayList<SongElement> parseSongBody(String body) {
@@ -40,46 +42,48 @@ public class EditSongController {
         SongElement currElement = new SongElement();
         boolean isChord = false;
         boolean isElement = false;
-        for (int i = 0; i < strippedBody.length(); i++) {
-            char c = strippedBody.charAt(i);
-            if (c == '[') {
-                if (currSegment.getChord() != null && currSegment.getLyrics() != null) {
-                    currElementSegments.add(currSegment);
-                    currSegment = new Segment();
-                }
-                isChord = true;
-            } else if (c == ']') {
-                isChord = false;
-            } else if (c == '{') {
-                if (!isChord) {
-                    if (currElement.getTitle() != null) {
+
+        if (validations(strippedBody)) {
+            for (int i = 0; i < strippedBody.length(); i++) {
+                char c = strippedBody.charAt(i);
+                if (c == '[') {
+                    if (currSegment.getChord() != null && currSegment.getLyrics() != null) {
                         currElementSegments.add(currSegment);
-                        currElement.setSegments(currElementSegments);
-                        result.add(currElement);
-                        currElementSegments = new ArrayList<>();
                         currSegment = new Segment();
-                        currElement = new SongElement();
                     }
-                    isElement = true;
-                }
-            } else if (c == '}') {
-                if (!isChord) {
-                    isElement = false;
-                }
-            }
-            else {
-                if (isChord) {
-                    currSegment.addCharacterToChord(c);
-                } else if (isElement) {
-                    currElement.addCharToTitle(c);
+                    isChord = true;
+                } else if (c == ']') {
+                    isChord = false;
+                } else if (c == '{') {
+                    if (!isChord) {
+                        if (currElement.getTitle() != null) {
+                            currElementSegments.add(currSegment);
+                            currElement.setSegments(currElementSegments);
+                            result.add(currElement);
+                            currElementSegments = new ArrayList<>();
+                            currSegment = new Segment();
+                            currElement = new SongElement();
+                        }
+                        isElement = true;
+                    }
+                } else if (c == '}') {
+                    if (!isChord) {
+                        isElement = false;
+                    }
                 } else {
-                    currSegment.addCharactertoLyrics(c);
+                    if (isChord) {
+                        currSegment.addCharacterToChord(c);
+                    } else if (isElement) {
+                        currElement.addCharToTitle(c);
+                    } else {
+                        currSegment.addCharactertoLyrics(c);
+                    }
                 }
             }
+            currElementSegments.add(currSegment);
+            currElement.setSegments(currElementSegments);
+            result.add(currElement);
         }
-        currElementSegments.add(currSegment);
-        currElement.setSegments(currElementSegments);
-        result.add(currElement);
         return result;
     }
 
@@ -89,5 +93,25 @@ public class EditSongController {
 
     public ArrayList<SongElement> getSongElements() {
         return songElements;
+    }
+
+    private boolean validations(String s) {
+        int bracketCount = 0;
+        int curlyCount = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '[') {
+                bracketCount++;
+            }
+            if (c == ']') {
+                bracketCount--;
+            }
+            if (c == '{') {
+                curlyCount++;
+            }
+            if (c == '}') {
+                curlyCount--;
+            }
+        }
+        return bracketCount == 0 && curlyCount == 0;
     }
 }
