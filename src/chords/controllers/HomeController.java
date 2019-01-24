@@ -1,7 +1,6 @@
 package chords.controllers;
 
 import chords.models.Song;
-import chords.models.SongElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -49,12 +48,10 @@ public class HomeController {
             EditSongController editSongController = fxmlLoader.getController();
             editSongController.init(selectedSong.getTitle());
             stage.showAndWait();
-            SongElement element = new SongElement();
-            element.setSegments(editSongController.getSegments());
-            selectedSong.getSongElements().add(element);
 
-            // TODO: REMOVE when formatting logic is done
-            chords.setText(selectedSong.getSongElements().toString());
+            selectedSong.setSongElements(editSongController.getSongElements());
+
+//            chords.setText();
         }
     }
 }

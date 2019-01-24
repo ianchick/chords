@@ -8,6 +8,10 @@ public class Segment {
         chord = new Chord();
     }
 
+    public String prettyFormatSegment() {
+        return chord + "\n" + lyrics;
+    }
+
     public String getLyrics() {
         return lyrics;
     }

@@ -6,6 +6,10 @@ public class SongElement {
     private String title;
     private ArrayList<Segment> segments;
 
+    public SongElement() {
+        segments = new ArrayList<>();
+    }
+
     public ArrayList<Segment> getSegments() {
         return segments;
     }
@@ -21,6 +25,15 @@ public class SongElement {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public void addCharToTitle(char c) {
+        if (title == null) {
+            title = String.valueOf(c);
+        } else {
+            title = title + c;
+        }
+    }
+
 
     @Override
     public String toString() {

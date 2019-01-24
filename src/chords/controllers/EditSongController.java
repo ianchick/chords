@@ -1,6 +1,7 @@
 package chords.controllers;
 
 import chords.models.Segment;
+import chords.models.SongElement;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -10,7 +11,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class EditSongController {
-    private ArrayList<Segment> segments;
+    private ArrayList<SongElement> songElements;
+    private String title;
 
     @FXML
     public TextArea song_body;
@@ -24,50 +26,68 @@ public class EditSongController {
     }
 
     public void save() {
-        this.segments = parseSongBody(song_body.getText());
+        this.songElements = parseSongBody(song_body.getText());
+        this.title = song_title.getText();
         Stage stage = (Stage) save.getScene().getWindow();
         stage.close();
     }
 
-    private ArrayList<Segment> parseSongBody(String body) {
-        // Split lyrics by line first
-        String[] songLines = body.split("\n");
-        ArrayList<Segment> result = new ArrayList<>();
-
-        for (String line : songLines) {
-            Segment currSegment = new Segment();
-            boolean isChord = false;
-            for (int i = 0; i < line.length(); i++) {
-                char c = line.charAt(i);
-                // If c = '[', start of chord, start new segment, isChord = true, add previous segment to result
-                if (c == '[') {
-                    // Add old segment if segment hasn't been set
-                    if (currSegment.getChord().getName() != null) {
-                        result.add(currSegment);
+    private ArrayList<SongElement> parseSongBody(String body) {
+        String strippedBody = body.replace("\n", "");
+        ArrayList<SongElement> result = new ArrayList<>();
+        ArrayList<Segment> currElementSegments = new ArrayList<>();
+        Segment currSegment = new Segment();
+        SongElement currElement = new SongElement();
+        boolean isChord = false;
+        boolean isElement = false;
+        for (int i = 0; i < strippedBody.length(); i++) {
+            char c = strippedBody.charAt(i);
+            if (c == '[') {
+                if (currSegment.getChord() != null && currSegment.getLyrics() != null) {
+                    currElementSegments.add(currSegment);
+                    currSegment = new Segment();
+                }
+                isChord = true;
+            } else if (c == ']') {
+                isChord = false;
+            } else if (c == '{') {
+                if (!isChord) {
+                    if (currElement.getTitle() != null) {
+                        currElementSegments.add(currSegment);
+                        currElement.setSegments(currElementSegments);
+                        result.add(currElement);
+                        currElementSegments = new ArrayList<>();
                         currSegment = new Segment();
+                        currElement = new SongElement();
                     }
-                    // Make new segment
-                    isChord = true;
+                    isElement = true;
                 }
-                // If c = ']', end of chord, isChord = false
-                else if (c == ']') {
-                    isChord = false;
-                }
-                // Else, add character to current segment, chord if isChord, lyrics if isLyric
-                else {
-                    if (isChord) {
-                        currSegment.addCharacterToChord(c);
-                    } else {
-                        currSegment.addCharactertoLyrics(c);
-                    }
+            } else if (c == '}') {
+                if (!isChord) {
+                    isElement = false;
                 }
             }
-            result.add(currSegment);
+            else {
+                if (isChord) {
+                    currSegment.addCharacterToChord(c);
+                } else if (isElement) {
+                    currElement.addCharToTitle(c);
+                } else {
+                    currSegment.addCharactertoLyrics(c);
+                }
+            }
         }
+        currElementSegments.add(currSegment);
+        currElement.setSegments(currElementSegments);
+        result.add(currElement);
         return result;
     }
 
-    public ArrayList<Segment> getSegments() {
-        return this.segments;
+    public String getTitle() {
+        return title;
+    }
+
+    public ArrayList<SongElement> getSongElements() {
+        return songElements;
     }
 }

@@ -18,7 +18,7 @@
     </top>
     <center>
         <ScrollPane>
-            <Text fx:id="chords" textAlignment="CENTER"/>
+            <Text fx:id="chords"/>
         </ScrollPane>
     </center>
 
