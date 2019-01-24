@@ -12,6 +12,14 @@ public class Song {
         songElements = new ArrayList<>();
     }
 
+    public String prettyFormatSong() {
+        StringBuilder sb = new StringBuilder();
+        for (SongElement s : songElements) {
+            sb.append(s.prettyFormatElement()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public String getTitle() {
         return title;
     }

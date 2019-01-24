@@ -18,6 +18,14 @@ public class SongElement {
         this.segments = segments;
     }
 
+    public String prettyFormatElement() {
+        StringBuilder sb = new StringBuilder(title).append("\n");
+        for (Segment s : segments) {
+            sb.append(s.prettyFormatSegment()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public String getTitle() {
         return title;
     }
@@ -33,7 +41,6 @@ public class SongElement {
             title = title + c;
         }
     }
-
 
     @Override
     public String toString() {

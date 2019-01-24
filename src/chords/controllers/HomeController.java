@@ -50,8 +50,7 @@ public class HomeController {
             stage.showAndWait();
 
             selectedSong.setSongElements(editSongController.getSongElements());
-
-//            chords.setText();
+            chords.setText(selectedSong.prettyFormatSong());
         }
     }
 }
