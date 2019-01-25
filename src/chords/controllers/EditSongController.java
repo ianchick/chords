@@ -22,8 +22,6 @@ public class EditSongController {
     @FXML
     public Button save;
     @FXML
-    public Button chordify_btn;
-    @FXML
     public CheckBox is_chord_first_line;
 
     public void init(String title) {
@@ -52,7 +50,7 @@ public class EditSongController {
             for (int i = 0; i < strippedBody.length(); i++) {
                 char c = strippedBody.charAt(i);
                 if (c == '[') {
-                    if (currSegment.getChord() != null && currSegment.getLyrics() != null) {
+                    if (currSegment.getChord() != null || currSegment.getLyrics() != null) {
                         currElementSegments.add(currSegment);
                         currSegment = new Segment();
                     }
@@ -122,6 +120,7 @@ public class EditSongController {
 
     public void chordify() {
         String body = song_body.getText();
+
         String[] lines = body.split("\n");
 
         StringBuilder result = new StringBuilder();
@@ -135,5 +134,16 @@ public class EditSongController {
             }
         }
         song_body.setText(result.toString());
+    }
+
+    public void removeEmptyLines() {
+        song_body.setText(song_body.getText().replace("\n\n", ""));
+    }
+
+    public void removeMarkers() {
+        song_body.setText(song_body.getText().replace("[", ""));
+        song_body.setText(song_body.getText().replace("]", ""));
+        song_body.setText(song_body.getText().replace("{", ""));
+        song_body.setText(song_body.getText().replace("}", ""));
     }
 }

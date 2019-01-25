@@ -9,7 +9,7 @@ public class Segment {
     }
 
     public String prettyFormatSegment() {
-        return chord + "\n" + lyrics;
+        return "CHORD: " + chord + "\n" + "LYRIC: " + lyrics;
     }
 
     public String getLyrics() {
