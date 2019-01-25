@@ -50,7 +50,7 @@ public class HomeController {
             EditSongController editSongController = fxmlLoader.getController();
             editSongController.init(selectedSong.getTitle());
             stage.showAndWait();
-            if (!editSongController.getSongElements().isEmpty()) {
+            if (editSongController.getSongElements() != null) {
                 selectedSong.setSongElements(editSongController.getSongElements());
                 chords.setText(selectedSong.prettyFormatSong());
             }

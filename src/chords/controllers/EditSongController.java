@@ -4,6 +4,7 @@ import chords.models.Segment;
 import chords.models.SongElement;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,6 +21,10 @@ public class EditSongController {
     public TextField song_title;
     @FXML
     public Button save;
+    @FXML
+    public Button chordify_btn;
+    @FXML
+    public CheckBox is_chord_first_line;
 
     public void init(String title) {
         song_title.setText(title);
@@ -27,7 +32,7 @@ public class EditSongController {
 
     public void save() {
         this.songElements = parseSongBody(song_body.getText());
-        if (!this.songElements.isEmpty()) {
+        if (!this.song_body.getText().isEmpty() && !this.song_title.getText().isEmpty()) {
             this.title = song_title.getText();
             Stage stage = (Stage) save.getScene().getWindow();
             stage.close();
@@ -113,5 +118,22 @@ public class EditSongController {
             }
         }
         return bracketCount == 0 && curlyCount == 0;
+    }
+
+    public void chordify() {
+        String body = song_body.getText();
+        String[] lines = body.split("\n");
+
+        StringBuilder result = new StringBuilder();
+        int chordIndex = is_chord_first_line.isSelected() ? 0 : 1;
+        for (int i = 0; i < lines.length; i++) {
+            if (i == chordIndex) {
+                result.append("[").append(lines[i]).append("]").append("\n");
+                chordIndex += 2;
+            } else {
+                result.append(lines[i]).append("\n");
+            }
+        }
+        song_body.setText(result.toString());
     }
 }
